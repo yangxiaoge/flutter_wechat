@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wechat/constants.dart' show AppColors;
+import 'package:flutter_wechat/constants.dart' show Constants, AppColors;
 
 class NavigationIconView {
   final BottomNavigationBarItem item;
@@ -32,23 +32,27 @@ class _HomeScreenState extends State<HomeScreen> {
     // 底部导航item初始化
     _navigationItemViews = [
       BottomNavigationBarItem(
-          icon: Icon(Icons.access_alarm),
-          activeIcon: Icon(Icons.access_alarm),
+          icon: Icon(IconData(0xe608, fontFamily: Constants.IconFontFamily)),
+          activeIcon:
+              Icon(IconData(0xe603, fontFamily: Constants.IconFontFamily)),
           title: Text('微信'),
           backgroundColor: Colors.white),
       BottomNavigationBarItem(
-          icon: Icon(Icons.cloud_queue),
-          activeIcon: Icon(Icons.cloud),
+          icon: Icon(IconData(0xe601, fontFamily: Constants.IconFontFamily)),
+          activeIcon:
+              Icon(IconData(0xe656, fontFamily: Constants.IconFontFamily)),
           title: Text('通讯录'),
           backgroundColor: Colors.white),
       BottomNavigationBarItem(
-          icon: Icon(Icons.favorite_border),
-          activeIcon: Icon(Icons.favorite),
+          icon: Icon(IconData(0xe600, fontFamily: Constants.IconFontFamily)),
+          activeIcon:
+              Icon(IconData(0xe671, fontFamily: Constants.IconFontFamily)),
           title: Text('发现'),
           backgroundColor: Colors.white),
       BottomNavigationBarItem(
-          icon: Icon(Icons.event_available),
-          activeIcon: Icon(Icons.event_available),
+          icon: Icon(IconData(0xe6c0, fontFamily: Constants.IconFontFamily)),
+          activeIcon:
+              Icon(IconData(0xe626, fontFamily: Constants.IconFontFamily)),
           title: Text('我的'),
           backgroundColor: Colors.white),
     ];
@@ -74,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0, // 阴影效果
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.search),
+            icon: Icon(IconData(0xe6c8, fontFamily: Constants.IconFontFamily)),
             onPressed: () {
               print('点击了搜索按钮');
             },
