@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wechat/constants.dart' show Constants, AppColors;
 
-class NavigationIconView {
-  final BottomNavigationBarItem item;
+import 'contact_page.dart';
+import 'conversation_page.dart';
+import 'discover_page.dart';
+import 'mine_page.dart';
 
-  NavigationIconView(
-      {Key key, String title, IconData icon, IconData activeIcon})
-      : item = BottomNavigationBarItem(
-          icon: Icon(icon),
-          activeIcon: Icon(activeIcon),
-          title: Text(title),
-          backgroundColor: Colors.white,
-        );
-}
+enum PopMenuItems { GROUP_CHAT, ADD_FRIEND, QR_SCAN, PAYMENT, HELP }
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -25,6 +19,30 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // 底部导航item集合
   List<BottomNavigationBarItem> _navigationItemViews;
+
+  // 4个页面
+  List<Widget> _pages;
+
+  // 页面控制器
+  PageController _pageViewController;
+
+  _buildPopupMunuItem(int iconName, String title) {
+    return Row(
+      children: <Widget>[
+        Icon(
+            IconData(
+              iconName,
+              fontFamily: Constants.IconFontFamily,
+            ),
+            size: 22.0,
+            color: const Color(AppColors.AppBarPopupMenuColor)),
+        Container(width: 12.0),
+        Text(title,
+            style:
+                TextStyle(color: const Color(AppColors.AppBarPopupMenuColor))),
+      ],
+    );
+  }
 
   @override
   void initState() {
@@ -56,6 +74,17 @@ class _HomeScreenState extends State<HomeScreen> {
           title: Text('我的'),
           backgroundColor: Colors.white),
     ];
+
+    _pages = [
+      Conversation(),
+      Contact(),
+      Discover(),
+      Mine(),
+    ];
+
+    _pageViewController = PageController(
+      initialPage: _currentIndex,
+    );
   }
 
   @override
@@ -68,8 +97,25 @@ class _HomeScreenState extends State<HomeScreen> {
       onTap: (index) {
         setState(() {
           _currentIndex = index;
+
+          // pageview跳转到对应页面
+          _pageViewController.jumpToPage(
+            _currentIndex,
+          );
         });
       },
+    );
+
+    final statsBarPlusAppbarHeight =
+        MediaQuery.of(context).padding.top + kToolbarHeight;
+    final snackBar = new SnackBar(
+      content: new Text('删除信息'),
+      action: new SnackBarAction(
+          label: '撤消',
+          onPressed: () {
+            // do something to undo
+          }
+      ),
     );
 
     return Scaffold(
@@ -78,21 +124,66 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0, // 阴影效果
         actions: <Widget>[
           IconButton(
-            icon: Icon(IconData(0xe6c8, fontFamily: Constants.IconFontFamily)),
+            icon: Icon(IconData(0xe65e, fontFamily: Constants.IconFontFamily),
+                size: 20),
             onPressed: () {
-              print('点击了搜索按钮');
+//              return Scaffold.of(context).showSnackBar(snackBar);
+            print('点击了搜索');
             },
           ),
           // 占位间隙
           SizedBox(
             width: 16,
           ),
-          Icon(Icons.add),
+          PopupMenuButton(
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(
+                  child: _buildPopupMunuItem(0xe69e, "发起群聊"),
+                  value: PopMenuItems.GROUP_CHAT,
+                ),
+                PopupMenuItem(
+                  child: _buildPopupMunuItem(0xe638, "添加朋友"),
+                  value: PopMenuItems.ADD_FRIEND,
+                ),
+                PopupMenuItem(
+                  child: _buildPopupMunuItem(0xe61b, "扫一扫"),
+                  value: PopMenuItems.QR_SCAN,
+                ),
+                PopupMenuItem(
+                  child: _buildPopupMunuItem(0xe62a, "收付款"),
+                  value: PopMenuItems.PAYMENT,
+                ),
+                PopupMenuItem(
+                  child: _buildPopupMunuItem(0xe63d, "帮助与反馈"),
+                  value: PopMenuItems.HELP,
+                ),
+              ];
+            },
+            icon: Icon(IconData(0xe658, fontFamily: Constants.IconFontFamily),
+                size: 20),
+            onSelected: (action) {
+              print('点击了$action');
+            },
+            offset: Offset(0, statsBarPlusAppbarHeight),
+          ),
           // 占位间隙
           SizedBox(
             width: 16,
           ),
         ],
+      ),
+      body: PageView.builder(
+        itemBuilder: (context, index) {
+          return _pages[index];
+        },
+        itemCount: _pages.length,
+        onPageChanged: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        controller: _pageViewController,
       ),
       bottomNavigationBar: bottomNavigationBar,
     );
