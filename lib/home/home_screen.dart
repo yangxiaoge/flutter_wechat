@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wechat/constants.dart' show Constants, AppColors;
+import 'package:flutter_wechat/custwidget/custom_bottom_bar.dart'
+    show MyBottomNavigationBar;
 
 import 'contact_page.dart';
 import 'conversation_page.dart';
@@ -25,6 +27,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // 页面控制器
   PageController _pageViewController;
+
+  // 用给SnackBar等组件使用
+  static final GlobalKey<ScaffoldState> _scaffoldKey =
+      GlobalKey<ScaffoldState>();
 
   _buildPopupMunuItem(int iconName, String title) {
     return Row(
@@ -89,10 +95,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final BottomNavigationBar bottomNavigationBar = BottomNavigationBar(
+    final MyBottomNavigationBar bottomNavigationBar = MyBottomNavigationBar(
       items: _navigationItemViews,
       fixedColor: Color(AppColors.TabIconActive),
-      type: BottomNavigationBarType.fixed,
+      //type: BottomNavigationBarType.fixed,
       currentIndex: _currentIndex,
       onTap: (index) {
         setState(() {
@@ -108,17 +114,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final statsBarPlusAppbarHeight =
         MediaQuery.of(context).padding.top + kToolbarHeight;
-    final snackBar = new SnackBar(
-      content: new Text('删除信息'),
-      action: new SnackBarAction(
-          label: '撤消',
-          onPressed: () {
-            // do something to undo
-          }
-      ),
-    );
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('微信'),
         elevation: 0, // 阴影效果
@@ -127,8 +125,8 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(IconData(0xe65e, fontFamily: Constants.IconFontFamily),
                 size: 20),
             onPressed: () {
-//              return Scaffold.of(context).showSnackBar(snackBar);
-            print('点击了搜索');
+              _scaffoldKey.currentState
+                  .showSnackBar(SnackBar(content: Text('点击了搜索')));
             },
           ),
           // 占位间隙
@@ -136,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
             width: 16,
           ),
           PopupMenuButton(
-            itemBuilder: (context) {
+            itemBuilder: (BuildContext context) {
               return [
                 PopupMenuItem(
                   child: _buildPopupMunuItem(0xe69e, "发起群聊"),
@@ -164,6 +162,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 size: 20),
             onSelected: (action) {
               print('点击了$action');
+              _scaffoldKey.currentState
+                  .showSnackBar(SnackBar(content: Text('点击了$action')));
             },
             offset: Offset(0, statsBarPlusAppbarHeight),
           ),
