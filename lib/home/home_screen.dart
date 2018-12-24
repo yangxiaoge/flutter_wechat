@@ -125,8 +125,10 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(IconData(0xe65e, fontFamily: Constants.IconFontFamily),
                 size: 20),
             onPressed: () {
-              _scaffoldKey.currentState
-                  .showSnackBar(SnackBar(content: Text('点击了搜索')));
+              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                content: Text('点击了搜索'),
+                duration: Duration(milliseconds: 500),
+              ));
             },
           ),
           // 占位间隙
@@ -162,8 +164,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 size: 20),
             onSelected: (action) {
               print('点击了$action');
-              _scaffoldKey.currentState
-                  .showSnackBar(SnackBar(content: Text('点击了$action')));
+              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                content: Text('点击了$action'),
+                duration: Duration(milliseconds: 500),
+              ));
             },
             offset: Offset(0, statsBarPlusAppbarHeight),
           ),
