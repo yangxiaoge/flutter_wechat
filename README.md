@@ -2,7 +2,8 @@
 
 A WeChat Flutter application.
 
-项目学习：[wechat_clone_hd](https://gitee.com/Seuic_dongji/wechat_clone_hd)
+视频教学地址：https://www.bilibili.com/video/av32622066/?p=17
+项目源码地址：https://gitee.com/Seuic_dongji/wechat_clone_hd
 
 ## Getting Started
 
