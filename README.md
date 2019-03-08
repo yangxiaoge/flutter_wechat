@@ -2,6 +2,8 @@
 
 A WeChat Flutter application.
 
+项目学习：[wechat_clone_hd](https://gitee.com/Seuic_dongji/wechat_clone_hd)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
